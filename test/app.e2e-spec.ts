@@ -7,6 +7,7 @@ import { DatabaseService } from '../src/database/database.service';
 import { DatabaseModule } from '../src/database';
 import * as request from 'supertest';
 import UserLoginDTO from 'src/users/dto/user-login.dto';
+import { User } from 'src/users/user.entity';
 
 describe('AppController (e2e)', () => {
   let testUtils: TestUtils;
@@ -55,9 +56,27 @@ describe('AppController (e2e)', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-      .end((err, res: { body: UserLoginDTO }) => {
-        expect(res.body.access_token).not.toBeUndefined();
+      .then((res: { body: UserLoginDTO }) => {
+        const { access_token } = res.body;
+        expect(access_token).not.toBeUndefined();
+
+        return request(app.getHttpServer())
+          .get('/profile')
+          .auth(res.body.access_token, { type: 'bearer' })
+          .expect(200)
+          .then((resp_2: { body: User }) => {
+            const user = resp_2.body;
+            expect(user).toEqual({ username: 'Peter', id: 1 });
+            done();
+          })
+          .catch((err) => {
+            done(err);
+          });
+
         done();
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
