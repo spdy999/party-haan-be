@@ -17,7 +17,7 @@ export class AuthService {
     username: string,
     pass: string,
   ): Promise<JwtUserPayloadDto> {
-    const user = await this.usersService.findOne(username);
+    const user: User = await this.usersService.findOne(username);
     if (user && user.password === pass) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;

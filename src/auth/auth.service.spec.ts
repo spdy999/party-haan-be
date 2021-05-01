@@ -10,7 +10,8 @@ describe('AuthService', () => {
   let userRepository: Repository<User>;
   let jwtService: JwtService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
+    userRepository = new Repository<User>();
     userService = new UsersService(userRepository);
     service = new AuthService(userService, jwtService);
   });
@@ -18,4 +19,22 @@ describe('AuthService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should validateUser', async () => {
+    jest
+      .spyOn(userService, 'findOne')
+      .mockImplementation(
+        (): Promise<User> =>
+          Promise.resolve(
+            new User({ username: 'Peter', password: '1234', id: 1 }),
+          ),
+      );
+
+    expect(await service.validateUser('Peter', '1234')).toEqual({
+      username: 'Peter',
+      id: 1,
+    });
+  });
+
+  // it('should not validateUser', () => {});
 });
