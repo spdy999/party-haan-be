@@ -13,6 +13,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     userRepository = new Repository<User>();
     userService = new UsersService(userRepository);
+    jwtService = new JwtService({});
     service = new AuthService(userService, jwtService);
   });
 
@@ -47,5 +48,17 @@ describe('AuthService', () => {
       );
 
     expect(await service.validateUser('Peter', 'wrongPass')).toBeNull();
+  });
+
+  it('should login user', () => {
+    jest
+      .spyOn(jwtService, 'sign')
+      .mockImplementation((): string => 'HelloWorld1234');
+
+    const { access_token } = service.login(
+      new User({ username: 'Peter', password: '1234' }),
+    );
+
+    expect(access_token).toBeDefined();
   });
 });
