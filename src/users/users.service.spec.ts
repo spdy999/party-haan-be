@@ -1,6 +1,5 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-// import { UserRepository } from './user.repository';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -16,7 +15,7 @@ describe('UsersService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should findOne', () => {
+  it('should findOne user', () => {
     jest.spyOn(userRepository, 'findOne').mockImplementation(() => {
       return Promise.resolve(
         new User({
@@ -27,5 +26,29 @@ describe('UsersService', () => {
       );
     });
     expect(service.findOne('Peter')).toBeDefined();
+  });
+
+  it('should insert user', async () => {
+    jest.spyOn(userRepository, 'create').mockImplementation(
+      (): User => {
+        return new User();
+      },
+    );
+    jest.spyOn(userRepository, 'save').mockImplementation(() => {
+      return Promise.resolve(
+        new User({
+          username: 'Peter',
+          password: '1234',
+          id: 1,
+        }),
+      );
+    });
+    const user = await service.insert({ username: 'Peter', password: '1234' });
+    expect(user).toEqual(
+      new User({
+        username: 'Peter',
+        password: '1234',
+      }),
+    );
   });
 });
