@@ -36,5 +36,16 @@ describe('AuthService', () => {
     });
   });
 
-  // it('should not validateUser', () => {});
+  it('should not validateUser', async () => {
+    jest
+      .spyOn(userService, 'findOne')
+      .mockImplementation(
+        (): Promise<User> =>
+          Promise.resolve(
+            new User({ username: 'Peter', password: '1234', id: 1 }),
+          ),
+      );
+
+    expect(await service.validateUser('Peter', 'wrongPass')).toBeNull();
+  });
 });
