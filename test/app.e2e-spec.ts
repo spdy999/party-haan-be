@@ -1,4 +1,4 @@
-import { TestUtils } from '../src/test/test.utils';
+import { TestUtils } from './test.utils';
 import { Test } from '@nestjs/testing';
 
 import { AppModule } from './../src/app.module';

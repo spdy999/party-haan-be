@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as Path from 'path';
 
-import { DatabaseService } from '../database/database.service';
+import { DatabaseService } from '../src/database/database.service';
 import { Injectable } from '@nestjs/common';
 
 /**
@@ -48,15 +48,15 @@ export class TestUtils {
    * Returns the order id
    * @param entityName The entity name of which you want to have the order from
    */
-  getOrder(entityName) {
-    const order: string[] = JSON.parse(
-      fs.readFileSync(
-        Path.join(__dirname, '../test/fixtures/_order.json'),
-        'utf8',
-      ),
-    );
-    return order.indexOf(entityName);
-  }
+  // getOrder(entityName) {
+  //   const order: string[] = JSON.parse(
+  //     fs.readFileSync(
+  //       Path.join(__dirname, '../test/fixtures/_order.json'),
+  //       'utf8',
+  //     ),
+  //   );
+  //   return order.indexOf(entityName);
+  // }
 
   /**
    * Returns the entites of the database
@@ -68,7 +68,7 @@ export class TestUtils {
         entities.push({
           name: x.name,
           tableName: x.tableName,
-          order: this.getOrder(x.name),
+          // order: this.getOrder(x.name),
         }),
     );
     return entities;
