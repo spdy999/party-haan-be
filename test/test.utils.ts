@@ -3,6 +3,7 @@ import * as Path from 'path';
 
 import { DatabaseService } from '../src/database/database.service';
 import { Injectable } from '@nestjs/common';
+import { EntityDTO } from './test.dto';
 
 /**
  * This class is used to support database
@@ -29,18 +30,18 @@ export class TestUtils {
    * Shutdown the http server
    * and close database connections
    */
-  async shutdownServer(server) {
-    await server.httpServer.close();
-    await this.closeDbConnection();
-  }
+  // async shutdownServer(server: Http): Promise<void> {
+  //   await server.httpServer.close();
+  //   await this.closeDbConnection();
+  // }
 
   /**
    * Closes the database connections
    */
-  async closeDbConnection() {
-    const connection = await this.databaseService.connection;
+  async closeDbConnection(): Promise<void> {
+    const connection = this.databaseService.connection;
     if (connection.isConnected) {
-      await (await this.databaseService.connection).close();
+      await connection.close();
     }
   }
 
@@ -59,26 +60,22 @@ export class TestUtils {
   // }
 
   /**
-   * Returns the entites of the database
+   * Returns the entities of the database
    */
-  async getEntities() {
-    const entities = [];
-    (await (await this.databaseService.connection).entityMetadatas).forEach(
-      (x) =>
-        entities.push({
-          name: x.name,
-          tableName: x.tableName,
-          // order: this.getOrder(x.name),
-        }),
-    );
-    return entities;
+  getEntities(): EntityDTO[] {
+    const connection = this.databaseService.connection;
+    const entityMetadatas = connection.entityMetadatas;
+    return entityMetadatas.map((entity) => ({
+      name: entity.name,
+      tableName: entity.tableName,
+    }));
   }
 
   /**
    * Cleans the database and reloads the entries
    */
-  async reloadFixtures() {
-    const entities = await this.getEntities();
+  async reloadFixtures(): Promise<void> {
+    const entities = this.getEntities();
     await this.cleanAll(entities);
     await this.loadAll(entities);
   }
@@ -86,9 +83,9 @@ export class TestUtils {
   /**
    * Cleans all the entities
    */
-  async cleanAll(entities) {
+  async cleanAll(entities: EntityDTO[]): Promise<void> {
     try {
-      for (const entity of entities.sort((a, b) => b.order - a.order)) {
+      for (const entity of entities) {
         const repository = await this.databaseService.getRepository(
           entity.name,
         );
@@ -98,17 +95,17 @@ export class TestUtils {
           `DELETE FROM sqlite_sequence WHERE name='${entity.tableName}'`,
         );
       }
-    } catch (error) {
-      throw new Error(`ERROR: Cleaning test db: ${error}`);
+    } catch (error: any) {
+      throw new Error(`ERROR: Cleaning test db: ${JSON.stringify(error)}`);
     }
   }
 
   /**
    * Insert the data from the src/test/fixtures folder
    */
-  async loadAll(entities: any[]) {
+  async loadAll(entities: EntityDTO[]): Promise<void> {
     try {
-      for (const entity of entities.sort((a, b) => a.order - b.order)) {
+      for (const entity of entities) {
         const repository = await this.databaseService.getRepository(
           entity.name,
         );
@@ -117,7 +114,9 @@ export class TestUtils {
           `../test/fixtures/${entity.name}.json`,
         );
         if (fs.existsSync(fixtureFile)) {
-          const items = JSON.parse(fs.readFileSync(fixtureFile, 'utf8'));
+          const str = fs.readFileSync(fixtureFile, 'utf8');
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const items = JSON.parse(str);
           await repository
             .createQueryBuilder(entity.name)
             .insert()
@@ -127,7 +126,9 @@ export class TestUtils {
       }
     } catch (error) {
       throw new Error(
-        `ERROR [TestUtils.loadAll()]: Loading fixtures on test db: ${error}`,
+        `ERROR [TestUtils.loadAll()]: Loading fixtures on test db: ${JSON.stringify(
+          error,
+        )}`,
       );
     }
   }
