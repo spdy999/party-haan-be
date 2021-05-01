@@ -61,4 +61,22 @@ describe('AuthService', () => {
 
     expect(access_token).toBeDefined();
   });
+
+  it('should signup user', async () => {
+    jest
+      .spyOn(userService, 'insert')
+      .mockImplementation(
+        (): Promise<User> =>
+          Promise.resolve(
+            new User({ username: 'Peter', password: '1234', id: 1 }),
+          ),
+      );
+    expect(
+      await service.signUp({ username: 'Peter', password: '1234' }),
+    ).toEqual({
+      username: 'Peter',
+      password: '1234',
+      id: 1,
+    });
+  });
 });
