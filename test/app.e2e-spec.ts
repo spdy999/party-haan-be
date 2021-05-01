@@ -32,7 +32,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    expect(1).toEqual(1);
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
