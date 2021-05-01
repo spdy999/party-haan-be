@@ -7,6 +7,7 @@ import { Connection } from 'typeorm';
 import { DatabaseModule } from './database/database.module';
 import { PartyModule } from './party/party.module';
 import { PartiesModule } from './parties/parties.module';
+import { PartiesUsersModule } from './parties-users/parties-users.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PartiesModule } from './parties/parties.module';
     DatabaseModule,
     PartyModule,
     PartiesModule,
+    PartiesUsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
