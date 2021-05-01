@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Party } from '../party/party.entity';
 import { User } from '../users/user.entity';
 
 export const getOrmConfig = (): TypeOrmModuleOptions => {
@@ -9,6 +10,7 @@ export const getOrmConfig = (): TypeOrmModuleOptions => {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE_NAME,
   };
+  const entities = [User, Party];
 
   if (process.env.NODE_ENV !== 'test') {
     return {
@@ -19,14 +21,14 @@ export const getOrmConfig = (): TypeOrmModuleOptions => {
       password: settings.password,
       database: settings.database,
       logging: false,
-      entities: [User],
+      entities,
       synchronize: true,
     };
   }
   return {
     type: 'sqlite',
     database: './db/test-db.sql',
-    entities: [User],
+    entities,
     synchronize: true,
     dropSchema: true,
   };
