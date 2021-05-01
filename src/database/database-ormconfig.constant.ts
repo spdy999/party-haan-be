@@ -24,15 +24,10 @@ export const getOrmConfig = (): TypeOrmModuleOptions => {
     };
   }
   return {
-    type: 'postgres',
-    host: settings.host,
-    port: settings.port,
-    username: process.env.DB_TEST_USERNAME,
-    password: process.env.DB_TEST_PASSWORD,
-    database: process.env.DB_TEST_DATABASE_NAME,
-    synchronize: true,
-    logging: false,
+    type: 'sqlite',
+    database: './db/test-db.sql',
     entities: [User],
+    synchronize: true,
     dropSchema: true,
   };
 };
