@@ -27,27 +27,28 @@ describe('AuthService', () => {
       .mockImplementation(
         (): Promise<User> =>
           Promise.resolve(
-            new User({ username: 'Peter', password: '1234', id: 1 }),
+            new User({ email: 'Peter', password: '1234', id: 1 }),
           ),
       );
 
     expect(await service.validateUser('Peter', '1234')).toEqual({
-      username: 'Peter',
+      email: 'Peter',
       id: 1,
     });
   });
 
-  it('should not validateUser', async () => {
+  it('should not validateUser', async (done) => {
     jest
       .spyOn(userService, 'findOne')
       .mockImplementation(
         (): Promise<User> =>
           Promise.resolve(
-            new User({ username: 'Peter', password: '1234', id: 1 }),
+            new User({ email: 'Peter', password: '1234', id: 1 }),
           ),
       );
 
     expect(await service.validateUser('Peter', 'wrongPass')).toBeNull();
+    done();
   });
 
   it('should login user', () => {
@@ -56,7 +57,7 @@ describe('AuthService', () => {
       .mockImplementation((): string => 'HelloWorld1234');
 
     const { access_token } = service.login(
-      new User({ username: 'Peter', password: '1234' }),
+      new User({ email: 'Peter', password: '1234' }),
     );
 
     expect(access_token).toBeDefined();
@@ -68,13 +69,11 @@ describe('AuthService', () => {
       .mockImplementation(
         (): Promise<User> =>
           Promise.resolve(
-            new User({ username: 'Peter', password: '1234', id: 1 }),
+            new User({ email: 'Peter', password: '1234', id: 1 }),
           ),
       );
-    expect(
-      await service.signUp({ username: 'Peter', password: '1234' }),
-    ).toEqual({
-      username: 'Peter',
+    expect(await service.signUp({ email: 'Peter', password: '1234' })).toEqual({
+      email: 'Peter',
       password: '1234',
       id: 1,
     });

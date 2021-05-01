@@ -19,7 +19,7 @@ describe('UsersService', () => {
     jest.spyOn(userRepository, 'findOne').mockImplementation(() => {
       return Promise.resolve(
         new User({
-          username: 'Peter',
+          email: 'Peter',
           password: '1234',
           id: 1,
         }),
@@ -37,16 +37,16 @@ describe('UsersService', () => {
     jest.spyOn(userRepository, 'save').mockImplementation(() => {
       return Promise.resolve(
         new User({
-          username: 'Peter',
+          email: 'Peter',
           password: '1234',
           id: 1,
         }),
       );
     });
-    const user = await service.insert({ username: 'Peter', password: '1234' });
+    const user = await service.insert({ email: 'Peter', password: '1234' });
     expect(user).toEqual(
       new User({
-        username: 'Peter',
+        email: 'Peter',
         password: '1234',
       }),
     );

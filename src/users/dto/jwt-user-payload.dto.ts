@@ -1,4 +1,4 @@
 export default class JwtUserPayloadDto {
-  readonly username: string;
+  readonly email: string;
   readonly id: number;
 }

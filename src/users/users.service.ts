@@ -13,14 +13,14 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ username });
+  async findOne(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ email });
   }
 
   async insert(user: CreateUserDto): Promise<User> {
     const userEntity: User = this.usersRepository.create();
-    const { username, password } = user;
-    userEntity.username = username;
+    const { email, password } = user;
+    userEntity.email = email;
     userEntity.password = password;
 
     await this.usersRepository.save(userEntity);

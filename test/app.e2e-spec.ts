@@ -44,7 +44,7 @@ describe('AppController (e2e)', () => {
     const testPassword = 'ImJohn101';
     return request(app.getHttpServer())
       .post('/auth/signup')
-      .send({ username: testUserName, password: testPassword })
+      .send({ email: testUserName, password: testPassword })
       .expect(201)
       .expect({}, done);
   });
@@ -52,7 +52,7 @@ describe('AppController (e2e)', () => {
   it('/auth/login (POST 200)', (done) => {
     return request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'Peter', password: '1234' })
+      .send({ email: 'Peter', password: '1234' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
@@ -66,7 +66,7 @@ describe('AppController (e2e)', () => {
           .expect(200)
           .then((resp_2: { body: User }) => {
             const user = resp_2.body;
-            expect(user).toEqual({ username: 'Peter', id: 1 });
+            expect(user).toEqual({ email: 'Peter', id: 1 });
             done();
           })
           .catch((err) => {
@@ -83,7 +83,7 @@ describe('AppController (e2e)', () => {
   it('/auth/login (POST 401)', (done) => {
     return request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'Peter', password: '12345' })
+      .send({ email: 'Peter', password: '12345' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(401, done);
