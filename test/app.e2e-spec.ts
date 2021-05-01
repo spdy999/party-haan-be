@@ -60,4 +60,13 @@ describe('AppController (e2e)', () => {
         done();
       });
   });
+
+  it('/auth/login (POST 401)', (done) => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ username: 'Peter', password: '12345' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(401, done);
+  });
 });
