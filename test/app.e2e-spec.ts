@@ -5,7 +5,6 @@ import { AppModule } from './../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { DatabaseService } from '../src/database/database.service';
 import { DatabaseModule } from '../src/database';
-import { UserRepository } from '../src/users/user.repository';
 import * as request from 'supertest';
 
 describe('AppController (e2e)', () => {

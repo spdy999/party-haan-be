@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+// import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { User } from './users/user.entity';
+// import { User } from './users/user.entity';
 import { DatabaseModule } from './database/database.module';
 
 @Module({
