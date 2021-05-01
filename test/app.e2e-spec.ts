@@ -8,7 +8,6 @@ import { DatabaseModule } from '../src/database';
 import * as request from 'supertest';
 
 describe('AppController (e2e)', () => {
-  // let userRepository: UserRepository;
   let testUtils: TestUtils;
   let app: INestApplication;
 
@@ -19,16 +18,6 @@ describe('AppController (e2e)', () => {
     }).compile();
     testUtils = module.get<TestUtils>(TestUtils);
     await testUtils.reloadFixtures();
-    // userRepository = testUtils.databaseService.connection.getCustomRepository(
-    //   UserRepository,
-    // );
-
-    // const moduleFixture = await Test.createTestingModule({
-    //   imports: [AppModule],
-    // }).compile();
-
-    // app = moduleFixture.createNestApplication();
-    // await app.init();
 
     app = module.createNestApplication();
     await app.init();
@@ -40,20 +29,21 @@ describe('AppController (e2e)', () => {
     done();
   });
 
-  // beforeAll(async () => {
-  //   const moduleFixture = await Test.createTestingModule({
-  //     imports: [AppModule],
-  //   }).compile();
-
-  //   app = moduleFixture.createNestApplication();
-  //   await app.init();
-  // });
-
   it('/ (GET)', () => {
     expect(1).toEqual(1);
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  it('/auth/signup (POST 201)', (done) => {
+    const testUserName = 'JohnDoe101';
+    const testPassword = 'ImJohn101';
+    return request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({ username: testUserName, password: testPassword })
+      .expect(201)
+      .expect({}, done);
   });
 });

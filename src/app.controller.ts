@@ -25,8 +25,9 @@ export class AppController {
   }
 
   @Post('auth/signup')
-  async signUp(@Body() user: CreateUserDto) {
-    return this.authService.signUp(user);
+  async signUp(@Body() user: CreateUserDto): Promise<void> {
+    await this.authService.signUp(user);
+    return;
   }
 
   @UseGuards(LocalAuthGuard)
