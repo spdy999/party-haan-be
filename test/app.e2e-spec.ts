@@ -6,6 +6,7 @@ import { INestApplication } from '@nestjs/common';
 import { DatabaseService } from '../src/database/database.service';
 import { DatabaseModule } from '../src/database';
 import * as request from 'supertest';
+import UserLoginDTO from 'src/users/dto/user-login.dto';
 
 describe('AppController (e2e)', () => {
   let testUtils: TestUtils;
@@ -45,5 +46,18 @@ describe('AppController (e2e)', () => {
       .send({ username: testUserName, password: testPassword })
       .expect(201)
       .expect({}, done);
+  });
+
+  it('/auth/login (POST 200)', (done) => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ username: 'Peter', password: '1234' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res: { body: UserLoginDTO }) => {
+        expect(res.body.access_token).not.toBeUndefined();
+        done();
+      });
   });
 });
