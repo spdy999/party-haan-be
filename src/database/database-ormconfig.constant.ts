@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Parties } from '../parties/parties.entity';
-import { PartiesUsers } from '../parties-users/parties-users.entity';
-import { User } from '../users/user.entity';
+import { PartiesUsers } from 'src/parties-users/parties-users.entity';
+import { Parties } from 'src/parties/parties.entity';
+import { User } from 'src/users/user.entity';
 
 export const getOrmConfig = (): TypeOrmModuleOptions => {
   const settings = {

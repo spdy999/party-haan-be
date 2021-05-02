@@ -1,8 +1,8 @@
 import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
 import { Repository } from 'typeorm';
-import { User } from '../users/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 describe('AuthService', () => {
   let service: AuthService;

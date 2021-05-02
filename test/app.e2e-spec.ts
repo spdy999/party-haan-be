@@ -1,13 +1,13 @@
 import { TestUtils } from './test.utils';
 import { Test } from '@nestjs/testing';
 
-import { AppModule } from './../src/app.module';
+import { AppModule } from 'src/app.module';
 import { INestApplication } from '@nestjs/common';
-import { DatabaseService } from '../src/database/database.service';
-import { DatabaseModule } from '../src/database/database.module';
 import * as request from 'supertest';
 import UserLoginDTO from 'src/users/dto/user-login.dto';
 import { User } from 'src/users/user.entity';
+import { DatabaseModule } from 'src/database/database.module';
+import { DatabaseService } from 'src/database/database.service';
 
 describe('AppController (e2e)', () => {
   let testUtils: TestUtils;

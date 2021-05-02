@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as Path from 'path';
 
-import { DatabaseService } from '../src/database/database.service';
+import { DatabaseService } from 'src/database/database.service';
 import { Injectable } from '@nestjs/common';
 import { EntityDTO } from './test.dto';
 

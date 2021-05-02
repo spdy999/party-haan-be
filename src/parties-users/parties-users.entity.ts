@@ -1,6 +1,6 @@
+import { Parties } from 'src/parties/parties.entity';
+import { User } from 'src/users/user.entity';
 import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../users/user.entity';
-import { Parties } from '../parties/parties.entity';
 
 @Entity()
 export class PartiesUsers extends BaseEntity {

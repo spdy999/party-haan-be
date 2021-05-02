@@ -1,4 +1,4 @@
-import { PartiesUsers } from '../parties-users/parties-users.entity';
+import { PartiesUsers } from 'src/parties-users/parties-users.entity';
 import {
   Entity,
   Column,

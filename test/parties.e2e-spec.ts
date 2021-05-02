@@ -1,10 +1,10 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { DatabaseModule } from '../src/database/database.module';
-import { DatabaseService } from '../src/database/database.service';
+import { DatabaseModule } from 'src/database/database.module';
+import { DatabaseService } from 'src/database/database.service';
 import * as request from 'supertest';
 import { TestUtils } from './test.utils';
-import { PartiesModule } from '../src/parties/parties.module';
+import { PartiesModule } from 'src/parties/parties.module';
 
 describe('PartiesController (e2e)', () => {
   let testUtils: TestUtils;
