@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Parties } from '../parties/parties.entity';
+import { PartiesUsers } from '../parties-users/parties-users.entity';
 import { Party } from '../party/party.entity';
 import { User } from '../users/user.entity';
 
@@ -11,7 +12,7 @@ export const getOrmConfig = (): TypeOrmModuleOptions => {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE_NAME,
   };
-  const entities = [User, Party, Parties];
+  const entities = [User, Party, Parties, PartiesUsers];
 
   if (process.env.NODE_ENV !== 'test') {
     return {

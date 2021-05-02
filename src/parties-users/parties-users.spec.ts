@@ -1,4 +1,4 @@
-import { PartiesUsers } from './parties-users';
+import { PartiesUsers } from './parties-users.entity';
 
 describe('PartiesUsers', () => {
   it('should be defined', () => {

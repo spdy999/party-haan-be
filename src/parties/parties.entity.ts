@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { PartiesUsers } from '../parties-users/parties-users.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Parties extends BaseEntity {
@@ -18,4 +25,7 @@ export class Parties extends BaseEntity {
 
   @Column()
   capacity: number;
+
+  @OneToMany(() => PartiesUsers, (partiesUsers) => partiesUsers.party)
+  partiesUsers: PartiesUsers[];
 }
