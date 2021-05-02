@@ -5,7 +5,6 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Connection } from 'typeorm';
 import { DatabaseModule } from './database/database.module';
-import { PartyModule } from './party/party.module';
 import { PartiesModule } from './parties/parties.module';
 import { PartiesUsersModule } from './parties-users/parties-users.module';
 
@@ -14,7 +13,6 @@ import { PartiesUsersModule } from './parties-users/parties-users.module';
     AuthModule,
     UsersModule,
     DatabaseModule,
-    PartyModule,
     PartiesModule,
     PartiesUsersModule,
   ],
