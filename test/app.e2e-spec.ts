@@ -8,6 +8,8 @@ import UserLoginDTO from 'src/users/dto/user-login.dto';
 import { User } from 'src/users/user.entity';
 import { DatabaseModule } from 'src/database/database.module';
 import { DatabaseService } from 'src/database/database.service';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from '../src/auth/constants';
 
 describe('AppController (e2e)', () => {
   let testUtils: TestUtils;
@@ -58,20 +60,6 @@ describe('AppController (e2e)', () => {
       .then((res: { body: UserLoginDTO }) => {
         const { access_token } = res.body;
         expect(access_token).not.toBeUndefined();
-
-        return request(app.getHttpServer())
-          .get('/profile')
-          .auth(res.body.access_token, { type: 'bearer' })
-          .expect(200)
-          .then((resp_2: { body: User }) => {
-            const user = resp_2.body;
-            expect(user).toEqual({ email: 'Peter', id: 1 });
-            done();
-          })
-          .catch((err) => {
-            done(err);
-          });
-
         done();
       })
       .catch((err) => {
@@ -86,5 +74,24 @@ describe('AppController (e2e)', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(401, done);
+  });
+
+  it('/profile (POST 200)', async (done) => {
+    const jwtService = new JwtService({
+      secretOrPrivateKey: jwtConstants.secret,
+    });
+    const access_token = jwtService.sign({ email: 'Peter', id: 1 });
+    return request(app.getHttpServer())
+      .get('/profile')
+      .auth(access_token, { type: 'bearer' })
+      .expect(200)
+      .then((resp: { body: User }) => {
+        const user = resp.body;
+        expect(user).toEqual({ email: 'Peter', id: 1 });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 });
