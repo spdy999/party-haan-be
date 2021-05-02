@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PartiesUsers } from 'src/parties-users/parties-users.entity';
+import { PartiesUsersService } from 'src/parties-users/parties-users.service';
+import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { Parties } from './parties.entity';
 
@@ -8,16 +11,13 @@ export class PartiesService {
   constructor(
     @InjectRepository(Parties)
     private partiesRepository: Repository<Parties>,
+    private partiesUsersService: PartiesUsersService,
   ) {}
   async findAll(): Promise<Parties[]> {
     return this.partiesRepository.find();
   }
 
-  // async join(user: User, party: Party): Promise<PartiesUsers> {
-  //   const partiesUsers: PartiesUsers = PartiesUsers.create();
-  //   partiesUsers.user = user;
-  //   // partiesUsers.party = party;
-  //   await PartiesUsers.save(partiesUsers);
-  //   return partiesUsers;
-  // }
+  async join(user: User, party: Parties): Promise<PartiesUsers> {
+    return this.partiesUsersService.createPartiesUsers(user, party);
+  }
 }

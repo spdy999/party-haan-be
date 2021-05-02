@@ -4,6 +4,11 @@ import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class PartiesUsers extends BaseEntity {
+  constructor(partial?: Partial<PartiesUsers>) {
+    super();
+    Object.assign(this, partial);
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 

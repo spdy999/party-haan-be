@@ -1,15 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { PartiesUsersService } from './parties-users.service';
+import { Repository } from 'typeorm';
+import { PartiesUsers } from './parties-users.entity';
 
 describe('PartiesUsersService', () => {
+  let partiesUsersRepository: Repository<PartiesUsers>;
   let service: PartiesUsersService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PartiesUsersService],
-    }).compile();
-
-    service = module.get<PartiesUsersService>(PartiesUsersService);
+  beforeEach(() => {
+    partiesUsersRepository = new Repository<PartiesUsers>();
+    service = new PartiesUsersService(partiesUsersRepository);
   });
 
   it('should be defined', () => {
