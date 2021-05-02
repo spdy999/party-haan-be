@@ -51,6 +51,7 @@ describe('PartiesService', () => {
       description: 'This is description',
       imgUrl: 'http://img.jpg',
       capacity: 5,
+      partiesUsers: [],
     });
     jest
       .spyOn(partiesRepository, 'findOne')

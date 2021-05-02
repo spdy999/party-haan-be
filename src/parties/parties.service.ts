@@ -18,12 +18,27 @@ export class PartiesService {
     return this.partiesRepository.findOne(id);
   }
 
+  async findOneWithPartiesUsers(id: number): Promise<Parties> {
+    return this.partiesRepository.findOne(id, { relations: ['partiesUsers'] });
+  }
+
   async findAll(): Promise<Parties[]> {
-    return this.partiesRepository.find();
+    return this.partiesRepository.find({
+      relations: ['partiesUsers'],
+    });
+  }
+
+  hasCapacity(partyWithPartiesUsers: Parties): boolean {
+    const { capacity, partiesUsers } = partyWithPartiesUsers;
+    return capacity > partiesUsers.length;
   }
 
   async join(user: User, partyId: number): Promise<PartiesUsers> {
-    const party = await this.findOne(partyId);
-    return this.partiesUsersService.createPartiesUsers(user, party);
+    const party = await this.findOneWithPartiesUsers(partyId);
+
+    if (this.hasCapacity(party)) {
+      return await this.partiesUsersService.createPartiesUsers(user, party);
+    }
+    throw new Error('Exceed party capacity');
   }
 }
