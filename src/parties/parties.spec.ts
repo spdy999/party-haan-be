@@ -1,4 +1,4 @@
-import { Parties } from './parties';
+import { Parties } from './parties.entity';
 
 describe('Parties', () => {
   it('should be defined', () => {
