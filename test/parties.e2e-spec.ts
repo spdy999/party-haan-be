@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { DatabaseModule } from '../src/database';
+import { DatabaseModule } from '../src/database/database.module';
 import { DatabaseService } from '../src/database/database.service';
 import * as request from 'supertest';
 import { TestUtils } from './test.utils';
