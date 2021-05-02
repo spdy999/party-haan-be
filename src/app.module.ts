@@ -6,9 +6,16 @@ import { UsersModule } from './users/users.module';
 import { Connection } from 'typeorm';
 import { DatabaseModule } from './database/database.module';
 import { PartyModule } from './party/party.module';
+import { PartiesModule } from './parties/parties.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, DatabaseModule, PartyModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    DatabaseModule,
+    PartyModule,
+    PartiesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
