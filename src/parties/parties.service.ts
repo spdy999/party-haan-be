@@ -13,11 +13,17 @@ export class PartiesService {
     private partiesRepository: Repository<Parties>,
     private partiesUsersService: PartiesUsersService,
   ) {}
+
+  async findOne(id: number): Promise<Parties> {
+    return this.partiesRepository.findOne(id);
+  }
+
   async findAll(): Promise<Parties[]> {
     return this.partiesRepository.find();
   }
 
-  async join(user: User, party: Parties): Promise<PartiesUsers> {
+  async join(user: User, partyId: number): Promise<PartiesUsers> {
+    const party = await this.findOne(partyId);
     return this.partiesUsersService.createPartiesUsers(user, party);
   }
 }

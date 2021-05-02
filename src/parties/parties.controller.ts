@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
-import { User } from 'src/users/user.entity';
+import { Controller, Get } from '@nestjs/common';
 import { Parties } from './parties.entity';
 import { PartiesService } from './parties.service';
 
@@ -10,12 +9,5 @@ export class PartiesController {
   @Get()
   getParties(): Promise<Parties[]> {
     return this.partiesService.findAll();
-  }
-
-  @Post('/join')
-  async joinParty(@Req() req: { user: User; party: Parties }): Promise<void> {
-    const { user, party } = req;
-    await this.partiesService.join(user, party);
-    return;
   }
 }

@@ -10,6 +10,8 @@ import { DatabaseModule } from 'src/database/database.module';
 import { DatabaseService } from 'src/database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../src/auth/constants';
+import { PartiesUsers } from '../src/parties-users/parties-users.entity';
+import { Parties } from 'src/parties/parties.entity';
 
 describe('AppController (e2e)', () => {
   let testUtils: TestUtils;
@@ -93,5 +95,41 @@ describe('AppController (e2e)', () => {
       .catch((err) => {
         done(err);
       });
+  });
+
+  it('/parties/join (POST)', (done) => {
+    const jwtService = new JwtService({
+      secretOrPrivateKey: jwtConstants.secret,
+    });
+    const token = jwtService.sign({ email: 'Peter', id: 1 });
+    return request(app.getHttpServer())
+      .post('/parties/join')
+      .auth(token, { type: 'bearer' })
+      .send({ partyId: 1 })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .then((res: { body: PartiesUsers }) => {
+        const partiesUsers = res.body;
+        const expectedUser = new User({
+          id: 1,
+          email: 'Peter',
+        });
+        const expectedParty = new Parties({
+          id: 1,
+          description: 'This is description.',
+          imgUrl:
+            'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
+          capacity: 5,
+        });
+        const expectedPartiesUsers = new PartiesUsers({
+          id: 1,
+          user: expectedUser,
+          party: expectedParty,
+        });
+        expect(partiesUsers).toEqual(expectedPartiesUsers);
+        done();
+      });
+    // .expect(1, done);
   });
 });

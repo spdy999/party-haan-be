@@ -53,11 +53,14 @@ describe('PartiesService', () => {
       capacity: 5,
     });
     jest
+      .spyOn(partiesRepository, 'findOne')
+      .mockImplementation(() => Promise.resolve(party));
+    jest
       .spyOn(partiesUsersService, 'createPartiesUsers')
       .mockImplementation(() =>
         Promise.resolve(new PartiesUsers({ id: 1, party, user })),
       );
 
-    expect(await service.join(user, party)).toBeDefined();
+    expect(await service.join(user, 1)).toBeDefined();
   });
 });
