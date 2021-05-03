@@ -124,6 +124,13 @@ export class TestUtils {
             .execute();
         }
       }
+
+      const puRepository = await this.databaseService.getRepository(
+        'PartiesUsers',
+      );
+      await puRepository.query(
+        'INSERT INTO parties_users (id, partyId, userId) VALUES (1, 2, 1)',
+      );
     } catch (error) {
       throw new Error(
         `ERROR [TestUtils.loadAll()]: Loading fixtures on test db: ${JSON.stringify(

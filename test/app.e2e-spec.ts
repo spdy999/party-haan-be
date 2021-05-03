@@ -96,7 +96,7 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('/parties/join (POST)', async (done) => {
+  it('/parties/join (POST 201)', async (done) => {
     const jwtService = new JwtService({
       secretOrPrivateKey: jwtConstants.secret,
     });
@@ -111,20 +111,39 @@ describe('AppController (e2e)', () => {
       .then((res: { body: PartiesUsers }) => {
         const partiesUsers = res.body;
         const expectedPartiesUsers = {
-          user: { id: 1, email: 'Peter' },
+          user: { email: 'Peter' },
           party: {
-            id: 1,
             description: 'This is description.',
             imgUrl:
               'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
             capacity: 5,
             partiesUsers: [],
           },
-          id: 1,
         };
 
-        expect(partiesUsers).toEqual(expectedPartiesUsers);
+        expect(partiesUsers).toMatchObject(expectedPartiesUsers);
         done();
+      });
+  });
+
+  it('/parties/join (POST 400)', async (done) => {
+    const jwtService = new JwtService({
+      secretOrPrivateKey: jwtConstants.secret,
+    });
+    const token = jwtService.sign({ email: 'Tony', id: 2 });
+    return request(app.getHttpServer())
+      .post('/parties/join')
+      .auth(token, { type: 'bearer' })
+      .send({ partyId: 2 })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toEqual({ message: 'No capacity', statusCode: 400 });
+        done();
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 });

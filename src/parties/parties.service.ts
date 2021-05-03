@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PartiesUsers } from 'src/parties-users/parties-users.entity';
 import { PartiesUsersService } from 'src/parties-users/parties-users.service';
@@ -39,6 +39,6 @@ export class PartiesService {
     if (this.hasCapacity(party)) {
       return await this.partiesUsersService.createPartiesUsers(user, party);
     }
-    throw new Error('Exceed party capacity');
+    throw new HttpException('No capacity', 400);
   }
 }
