@@ -6,7 +6,7 @@ import { User } from 'src/users/user.entity';
 export const getOrmConfig = (): TypeOrmModuleOptions => {
   const settings = {
     host: 'postgres',
-    port: parseInt(process.env.POSTGRES_DEV_PORT, 10),
+    port: parseInt(process.env.POSTGRES_PORT, 10),
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE_NAME,
