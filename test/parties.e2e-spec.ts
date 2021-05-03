@@ -55,4 +55,22 @@ describe('PartiesController (e2e)', () => {
         done();
       });
   });
+
+  it('/parties (POST 201)', async (done) => {
+    return request(app.getHttpServer())
+      .post('/parties')
+      .send({ name: 'Create Party 1', capacity: 11 })
+      .expect(201)
+      .then((res) => {
+        const expectedParty = {
+          name: 'Create Party 1',
+          capacity: 11,
+        };
+        expect(res.body).toMatchObject(expectedParty);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });

@@ -20,7 +20,7 @@ export class Parties extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   imgUrl: string;
 
   @Column()

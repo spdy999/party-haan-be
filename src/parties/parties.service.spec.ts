@@ -94,6 +94,8 @@ describe('PartiesService', () => {
       imgUrl: 'https://img.jpg',
       partiesUsers: [],
     });
+
+    jest.spyOn(partiesRepository, 'create').mockImplementation(() => party);
     jest
       .spyOn(partiesRepository, 'save')
       .mockImplementation(() => Promise.resolve(party));

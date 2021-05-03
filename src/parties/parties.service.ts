@@ -24,8 +24,15 @@ export class PartiesService {
     });
   }
 
-  async create(name: string, capacity: number): Promise<Parties> {
-    const party = new Parties({ name, capacity });
+  async create(
+    name: string,
+    capacity: number,
+    imgUrl?: string,
+  ): Promise<Parties> {
+    const party: Parties = this.partiesRepository.create();
+    party.name = name;
+    party.capacity = capacity;
+    party.imgUrl = imgUrl;
     return this.partiesRepository.save(party);
   }
 
