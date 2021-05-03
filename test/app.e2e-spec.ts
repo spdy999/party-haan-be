@@ -113,7 +113,7 @@ describe('AppController (e2e)', () => {
         const expectedPartiesUsers = {
           user: { email: 'Peter' },
           party: {
-            description: 'This is description.',
+            name: 'This is name.',
             imgUrl:
               'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
             capacity: 5,

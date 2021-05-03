@@ -36,7 +36,7 @@ describe('PartiesController (e2e)', () => {
         const expectedParties = [
           {
             id: 1,
-            description: 'This is description.',
+            name: 'This is name.',
             imgUrl:
               'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
             capacity: 5,
@@ -44,7 +44,7 @@ describe('PartiesController (e2e)', () => {
           },
           {
             id: 2,
-            description: 'Only 1 capacity',
+            name: 'Only 1 capacity',
             imgUrl:
               'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
             capacity: 1,

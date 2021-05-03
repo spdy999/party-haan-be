@@ -18,7 +18,7 @@ export class Parties extends BaseEntity {
   id: number;
 
   @Column()
-  description: string;
+  name: string;
 
   @Column()
   imgUrl: string;

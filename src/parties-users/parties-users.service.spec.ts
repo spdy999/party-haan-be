@@ -21,7 +21,7 @@ describe('PartiesUsersService', () => {
     const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
     const party = new Parties({
       id: 1,
-      description: 'This is description',
+      name: 'This is name',
       imgUrl: 'http://img.jpg',
       capacity: 5,
     });

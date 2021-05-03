@@ -26,13 +26,13 @@ describe('PartiesService', () => {
     const mockParties = [
       new Parties({
         id: 1,
-        description: 'desc1',
+        name: 'name1',
         imgUrl: 'http://url.jpg',
         capacity: 5,
       }),
       new Parties({
         id: 2,
-        description: 'desc1',
+        name: 'name2',
         imgUrl: 'http://url.jpg',
         capacity: 5,
       }),
@@ -48,7 +48,7 @@ describe('PartiesService', () => {
     const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
     const party = new Parties({
       id: 1,
-      description: 'This is description',
+      name: 'This is name',
       imgUrl: 'http://img.jpg',
       capacity: 5,
       partiesUsers: [],
@@ -69,7 +69,7 @@ describe('PartiesService', () => {
     const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
     const party = new Parties({
       id: 1,
-      description: 'This is description',
+      name: 'This is name',
       imgUrl: 'http://img.jpg',
       capacity: 0,
       partiesUsers: [],
