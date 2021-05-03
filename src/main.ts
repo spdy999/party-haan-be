@@ -6,4 +6,4 @@ const bootstrap = async (): Promise<void> => {
   await app.listen(process.env.SERVER_PORT);
 };
 
-bootstrap();
+void bootstrap();
