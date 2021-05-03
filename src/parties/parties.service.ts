@@ -24,6 +24,11 @@ export class PartiesService {
     });
   }
 
+  async create(name: string, capacity: number): Promise<Parties> {
+    const party = new Parties({ name, capacity });
+    return this.partiesRepository.save(party);
+  }
+
   hasCapacity(partyWithPartiesUsers: Parties): boolean {
     const { capacity, partiesUsers } = partyWithPartiesUsers;
     return capacity > partiesUsers.length;

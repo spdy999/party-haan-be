@@ -85,4 +85,18 @@ describe('PartiesService', () => {
 
     expect(await service.join(user, 1)).toBeNull();
   });
+
+  it('should create party', async () => {
+    const party = new Parties({
+      id: 1,
+      name: 'Party 1',
+      capacity: 10,
+      imgUrl: 'https://img.jpg',
+      partiesUsers: [],
+    });
+    jest
+      .spyOn(partiesRepository, 'save')
+      .mockImplementation(() => Promise.resolve(party));
+    expect(await service.create('Party 1', 10)).toBeDefined();
+  });
 });
