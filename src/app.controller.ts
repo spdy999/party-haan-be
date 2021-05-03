@@ -16,6 +16,7 @@ import { User } from './users/user.entity';
 import UserLoginDTO from './users/dto/user-login.dto';
 import { PartiesService } from './parties/parties.service';
 import { PartiesUsers } from './parties-users/parties-users.entity';
+import { HttpException } from '@nestjs/common';
 
 @Controller()
 export class AppController {
@@ -57,6 +58,10 @@ export class AppController {
   ): Promise<PartiesUsers> {
     const { user } = req;
     const { partyId } = body;
-    return this.partiesService.join(user, partyId);
+    const partiesUsers = await this.partiesService.join(user, partyId);
+    if (!partiesUsers) {
+      throw new HttpException('No capacity', 400);
+    }
+    return partiesUsers;
   }
 }

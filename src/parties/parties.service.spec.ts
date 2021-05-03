@@ -64,4 +64,25 @@ describe('PartiesService', () => {
 
     expect(await service.join(user, 1)).toBeDefined();
   });
+
+  it('should exceed party capacity', async () => {
+    const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
+    const party = new Parties({
+      id: 1,
+      description: 'This is description',
+      imgUrl: 'http://img.jpg',
+      capacity: 0,
+      partiesUsers: [],
+    });
+    jest
+      .spyOn(partiesRepository, 'findOne')
+      .mockImplementation(() => Promise.resolve(party));
+    jest
+      .spyOn(partiesUsersService, 'createPartiesUsers')
+      .mockImplementation(() =>
+        Promise.resolve(new PartiesUsers({ id: 1, party, user })),
+      );
+
+    expect(await service.join(user, 1)).toBeNull();
+  });
 });

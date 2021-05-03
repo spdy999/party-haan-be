@@ -23,6 +23,8 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => PartiesUsers, (partiesUsers) => partiesUsers.user)
+  @OneToMany(() => PartiesUsers, (partiesUsers) => partiesUsers.user, {
+    onDelete: 'CASCADE',
+  })
   partiesUsers: PartiesUsers[];
 }

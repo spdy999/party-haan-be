@@ -14,10 +14,6 @@ export class PartiesService {
     private partiesUsersService: PartiesUsersService,
   ) {}
 
-  async findOne(id: number): Promise<Parties> {
-    return this.partiesRepository.findOne(id);
-  }
-
   async findOneWithPartiesUsers(id: number): Promise<Parties> {
     return this.partiesRepository.findOne(id, { relations: ['partiesUsers'] });
   }
@@ -33,12 +29,12 @@ export class PartiesService {
     return capacity > partiesUsers.length;
   }
 
-  async join(user: User, partyId: number): Promise<PartiesUsers> {
+  async join(user: User, partyId: number): Promise<PartiesUsers | null> {
     const party = await this.findOneWithPartiesUsers(partyId);
 
     if (this.hasCapacity(party)) {
       return await this.partiesUsersService.createPartiesUsers(user, party);
     }
-    throw new HttpException('No capacity', 400);
+    return null;
   }
 }

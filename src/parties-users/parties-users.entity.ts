@@ -12,9 +12,11 @@ export class PartiesUsers extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Parties, (party) => party.partiesUsers)
+  @ManyToOne(() => Parties, (party) => party.partiesUsers, {
+    onDelete: 'CASCADE',
+  })
   party: Parties;
 
-  @ManyToOne(() => User, (user) => user.partiesUsers)
+  @ManyToOne(() => User, (user) => user.partiesUsers, { onDelete: 'CASCADE' })
   user: User;
 }

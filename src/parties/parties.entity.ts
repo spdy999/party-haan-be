@@ -26,6 +26,8 @@ export class Parties extends BaseEntity {
   @Column()
   capacity: number;
 
-  @OneToMany(() => PartiesUsers, (partiesUsers) => partiesUsers.party)
+  @OneToMany(() => PartiesUsers, (partiesUsers) => partiesUsers.party, {
+    onDelete: 'CASCADE',
+  })
   partiesUsers: PartiesUsers[];
 }
