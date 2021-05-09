@@ -49,7 +49,7 @@ export class PartiesService {
         return await this.partiesUsersService.createPartiesUsers(user, party);
       } catch (error) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (error.code === '23505') {
+        if (error.code === '23505' || error.code === 'SQLITE_CONSTRAINT') {
           throw new HttpException('Can not join same party.', 400);
         } else {
           throw new HttpException(error, 400);
