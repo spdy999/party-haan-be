@@ -72,10 +72,12 @@ describe('AuthService', () => {
             new User({ email: 'Peter', password: '1234', id: 1 }),
           ),
       );
+    jest
+      .spyOn(jwtService, 'sign')
+      .mockImplementation((): string => 'HelloWorld1234');
     expect(await service.signUp({ email: 'Peter', password: '1234' })).toEqual({
-      email: 'Peter',
-      password: '1234',
-      id: 1,
+      access_token: 'HelloWorld1234',
+      userId: 1,
     });
   });
 });
