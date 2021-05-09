@@ -79,7 +79,7 @@ describe('PartiesService', () => {
       .mockImplementation(() => Promise.resolve(party));
     jest
       .spyOn(partiesUsersService, 'createPartiesUsers')
-      .mockImplementation(() => Promise.reject({ code: 'SQLITE_CONSTRAINT' }));
+      .mockImplementation(() => Promise.reject({ code: '23505' }));
 
     void expect(async () => service.join(user, 1)).rejects.toThrowError();
   });
