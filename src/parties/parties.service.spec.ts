@@ -65,6 +65,25 @@ describe('PartiesService', () => {
     expect(await service.join(user, 1)).toBeDefined();
   });
 
+  it('should throw error if same user join joined party', () => {
+    const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
+    const party = new Parties({
+      id: 1,
+      name: 'This is name',
+      imgUrl: 'http://img.jpg',
+      capacity: 5,
+      partiesUsers: [],
+    });
+    jest
+      .spyOn(partiesRepository, 'findOne')
+      .mockImplementation(() => Promise.resolve(party));
+    jest
+      .spyOn(partiesUsersService, 'createPartiesUsers')
+      .mockImplementation(() => Promise.reject({ code: 'SQLITE_CONSTRAINT' }));
+
+    void expect(async () => service.join(user, 1)).rejects.toThrowError();
+  });
+
   it('should exceed party capacity', async () => {
     const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
     const party = new Parties({
