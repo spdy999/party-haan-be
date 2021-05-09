@@ -29,10 +29,18 @@ export class AuthService {
 
     return {
       access_token,
+      userId: user.id,
     };
   }
 
-  async signUp(user: CreateUserDto): Promise<User> {
-    return this.usersService.insert(user);
+  async signUp(user: CreateUserDto): Promise<UserLoginDTO> {
+    const createdUser = await this.usersService.insert(user);
+    const payload = { email: createdUser.email, id: createdUser.id };
+    const access_token = this.jwtService.sign(payload);
+
+    return {
+      access_token,
+      userId: createdUser.id,
+    };
   }
 }

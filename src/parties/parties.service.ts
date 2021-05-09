@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PartiesUsers } from 'src/parties-users/parties-users.entity';
 import { PartiesUsersService } from 'src/parties-users/parties-users.service';
 import { User } from 'src/users/user.entity';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Parties } from './parties.entity';
 
 @Injectable()

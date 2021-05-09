@@ -48,7 +48,15 @@ describe('AppController (e2e)', () => {
       .post('/auth/signup')
       .send({ email: testUserName, password: testPassword })
       .expect(201)
-      .expect({}, done);
+      .then((res: { body: UserLoginDTO }) => {
+        const { access_token, userId } = res.body;
+        expect(access_token).not.toBeUndefined();
+        expect(userId).not.toBeUndefined();
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 
   it('/auth/login (POST 200)', (done) => {
@@ -59,8 +67,9 @@ describe('AppController (e2e)', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res: { body: UserLoginDTO }) => {
-        const { access_token } = res.body;
+        const { access_token, userId } = res.body;
         expect(access_token).not.toBeUndefined();
+        expect(userId).not.toBeUndefined();
         done();
       })
       .catch((err) => {
