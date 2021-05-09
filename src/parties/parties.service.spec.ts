@@ -84,6 +84,25 @@ describe('PartiesService', () => {
     void expect(async () => service.join(user, 1)).rejects.toThrowError();
   });
 
+  it('should throw error join service have an error', () => {
+    const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
+    const party = new Parties({
+      id: 1,
+      name: 'This is name',
+      imgUrl: 'http://img.jpg',
+      capacity: 5,
+      partiesUsers: [],
+    });
+    jest
+      .spyOn(partiesRepository, 'findOne')
+      .mockImplementation(() => Promise.resolve(party));
+    jest
+      .spyOn(partiesUsersService, 'createPartiesUsers')
+      .mockImplementation(() => Promise.reject({ message: 'Other errors' }));
+
+    void expect(async () => service.join(user, 1)).rejects.toThrowError();
+  });
+
   it('should exceed party capacity', async () => {
     const user = new User({ id: 1, email: 'john@m.com', password: '1234' });
     const party = new Parties({
