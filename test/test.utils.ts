@@ -131,6 +131,9 @@ export class TestUtils {
       await puRepository.query(
         'INSERT INTO parties_users (id, partyId, userId) VALUES (1, 2, 1)',
       );
+      await puRepository.query(
+        'INSERT INTO parties_users (id, partyId, userId) VALUES (2, 3, 1)',
+      );
     } catch (error) {
       throw new Error(
         `ERROR [TestUtils.loadAll()]: Loading fixtures on test db: ${JSON.stringify(

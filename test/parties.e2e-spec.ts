@@ -48,7 +48,15 @@ describe('PartiesController (e2e)', () => {
             imgUrl:
               'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
             capacity: 1,
-            partiesUsers: [{ id: 1 }],
+            partiesUsers: [{ id: 1, partyId: 2, userId: 1 }],
+          },
+          {
+            id: 3,
+            name: 'Test duplicate user',
+            imgUrl:
+              'https://i.pinimg.com/564x/58/b8/ac/58b8ac4c880c45848c034226e00e3ca2.jpg',
+            capacity: 3,
+            partiesUsers: [{ id: 2, partyId: 3, userId: 1 }],
           },
         ];
         expect(resp.body).toEqual(expectedParties);

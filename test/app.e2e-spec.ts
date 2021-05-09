@@ -146,4 +146,28 @@ describe('AppController (e2e)', () => {
         done(err);
       });
   });
+
+  it('/parties/join (POST 400 same user in same party)', async (done) => {
+    const jwtService = new JwtService({
+      secretOrPrivateKey: jwtConstants.secret,
+    });
+    const token = jwtService.sign({ email: 'Peter', id: 1 });
+    return request(app.getHttpServer())
+      .post('/parties/join')
+      .auth(token, { type: 'bearer' })
+      .send({ partyId: 3 })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toEqual({
+          message: 'Can not join same party.',
+          statusCode: 400,
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PartiesUsers } from 'src/parties-users/parties-users.entity';
 import { PartiesUsersService } from 'src/parties-users/parties-users.service';
 import { User } from 'src/users/user.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Parties } from './parties.entity';
 
 @Injectable()
@@ -45,7 +45,16 @@ export class PartiesService {
     const party = await this.findOneWithPartiesUsers(partyId);
 
     if (this.hasCapacity(party)) {
-      return await this.partiesUsersService.createPartiesUsers(user, party);
+      try {
+        return await this.partiesUsersService.createPartiesUsers(user, party);
+      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (error.code === 'SQLITE_CONSTRAINT') {
+          throw new HttpException('Can not join same party.', 400);
+        } else {
+          throw new HttpException(error, 400);
+        }
+      }
     }
     return null;
   }
