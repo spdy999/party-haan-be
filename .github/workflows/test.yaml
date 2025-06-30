@@ -1,0 +1,14 @@
+name: Echo Base64 String Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  echo-base64:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo Base64 String
+        run: echo "JBSWY3DPEBLW64TMMQQQ===="
